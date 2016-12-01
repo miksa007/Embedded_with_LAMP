@@ -1,5 +1,6 @@
 
 package bitnamitesti;
+
 /**
  * @author miksa	mika.saari@tut.fi 
  * 
@@ -19,8 +20,12 @@ public class Tietokanta {
 		try {
 			System.out.println("alkoi");
 			tk.createConnection("javatesti2", "testaaja2", "salasana");
+			// jos tietokannassa ei ole taulua olemassa niin alla oleva luo
+			// uuden taulun
 			// tk.luoTaulu();
-			//tk.luoTietoa();
+			// jos tietokannan taulussa ei ole tietoa niin alla oleva luo uuden
+			// rivin
+			// tk.luoTietoa();
 			tk.tulostaTiedot();
 			System.out.println("Loppu");
 		} catch (Exception e) {
@@ -32,8 +37,11 @@ public class Tietokanta {
 	 * Luodaan yhteys tietokantaan
 	 * 
 	 * @param schema
+	 *            MySQL Tietokannan nimi
 	 * @param user
+	 *            Kayttajatunnus MySQL-tietokantaan
 	 * @param pass
+	 *            salasana MySQL-tietokantaan
 	 * @throws Exception
 	 */
 	public void createConnection(String schema, String user, String pass) throws Exception {
@@ -43,21 +51,26 @@ public class Tietokanta {
 			// this is for MariaDB
 			// Class.forName("org.mariadb.jdbc.Driver").newInstance();
 		} catch (Exception e) {
-			System.out.println("virhe 1");
-			e.printStackTrace();
+			System.out.println("virhe 1: Et ole asentanut driveria Build Path:iin"
+					+ "\n Lataa osoitteesta https://dev.mysql.com/downloads/connector/j/ "
+					+ "\n paketti mysql-connector-java-5.1.40.zip ja pura paketista mysql-connector-java-3.1.11-bin.jar "
+					+ "tiedosto projektiin mukaan. Lisää kyseinen tiedosto Build Path:iin");
+
+			// e.printStackTrace();
 			throw new Exception("createConnection: JDBC-ajurin rekisterainti epaonnistui.");
 		}
 		try {
+			//Satunnaisia osoitteita, jotka kaikki riippuvat ympäristöstä missä toimitaan
 			// String url = "jdbc:mysql://localhost/olioJavatesti";
 			// String url = "jdbc:mysql://localhost/" + schema;
 			// String url = "jdbc:mysql://192.168.0.121/" + schema;
-			String url = "jdbc:mysql://192.168.1.114/" + schema;
+			// String url = "jdbc:mysql://192.168.1.114/" + schema;
+			String url = "jdbc:mysql://130.230.119.250/" + schema;
 			con = DriverManager.getConnection(url, user, pass);
 		} catch (SQLException se) {
 			System.out.println("virhe 2");
 			se.printStackTrace();
 			System.out.println("createConnection: Login error");
-
 		}
 	}
 
